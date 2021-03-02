@@ -1,6 +1,7 @@
 import React from 'react';
 import DeckListItem from './DeckListItem';
 import {FlatList} from 'react-native';
+import {TouchableRipple} from 'react-native-paper';
 
 const cards = [
   {id: '1', title: 'card1', totalCards: 1},
@@ -14,11 +15,27 @@ const cards = [
   {id: '9', title: 'card9', totalCards: 5},
 ];
 
-function DeckList() {
+const handleOnPress = (navigation, item) => {
+  navigation.navigate('DeckView', {
+    title: item.title,
+    totalCards: item.totalCards
+  })
+};
+
+const Item = ({item, onPress}) => <TouchableRipple onPress={onPress}>
+  <DeckListItem
+    title={item.title}
+    totalCards={item.totalCards}/>
+</TouchableRipple>;
+
+function DeckList({navigation}) {
   return (
     <FlatList
       data={cards}
-      renderItem={({ item }) => <DeckListItem title={item.title} totalCards={item.totalCards}/>}
+      renderItem={({ item }) => <Item
+        item={item}
+        onPress={() => handleOnPress(navigation, item)}/>
+      }
       keyExtractor={(item) => item.id}
     />
   );

@@ -1,16 +1,23 @@
 import React from 'react';
-import {AppRegistry, StyleSheet, View} from 'react-native';
-import {name as appName} from './app.json';
-import {Appbar, Provider as PaperProvider} from 'react-native-paper';
+import {AppRegistry, StyleSheet} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {expo} from './app.json';
+import {Provider as PaperProvider} from 'react-native-paper';
 import DeckList from './components/DeckList';
+import DeckView from './components/DeckView';
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <PaperProvider>
-      <View style={styles.container}>
-        <Appbar/>
-        <DeckList/>
-      </View>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="DeckList">
+          <Stack.Screen name="Decks" component={DeckList} />
+          <Stack.Screen name="DeckView" component={DeckView} options={{title: 'Deck'}}/>
+        </Stack.Navigator>
+      </NavigationContainer>
     </PaperProvider>
   );
 }
@@ -21,4 +28,4 @@ const styles = StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent(appName, () => App);
+AppRegistry.registerComponent(expo.name, () => App);
