@@ -1,21 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {AppRegistry, StyleSheet, View} from 'react-native';
+import {name as appName} from './app.json';
+import {Appbar, Provider as PaperProvider} from 'react-native-paper';
+import DeckList from './components/DeckList';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <PaperProvider>
+      <View style={styles.container}>
+        <Appbar/>
+        <DeckList/>
+      </View>
+    </PaperProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    paddingTop: 50
+  }
 });
+
+AppRegistry.registerComponent(appName, () => App);
