@@ -13,7 +13,7 @@ function DeckView({route, navigation}) {
       <Title>{title}</Title>
       <Caption>{cards}</Caption>
       <Button mode="contained" style={styles.btn}>Start Quiz</Button>
-      <Button icon="plus" mode="contained" style={styles.btn}>Add Question</Button>
+      <Button icon="plus" mode="contained" style={styles.btn}>Add Card</Button>
     </Surface>
   );
 }
@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
   surface: {
     padding: 24,
     alignItems: 'center',
-    justifyContent: 'center',
     elevation: 4,
   },
   btn: {
