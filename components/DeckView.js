@@ -12,7 +12,6 @@ function DeckView({route, navigation}) {
     <Surface style={styles.surface}>
       <Title>{title}</Title>
       <Caption>{cards}</Caption>
-      <Button mode="contained" style={styles.btn}>Start Quiz</Button>
       <Button
         icon="plus"
         mode="contained"
@@ -20,6 +19,13 @@ function DeckView({route, navigation}) {
         onPress={() => navigation.navigate('NewCard')}
       >
         Add Card
+      </Button>
+      <Button
+        mode="contained"
+        style={styles.btn}
+        onPress={() => navigation.navigate('Quiz')}
+      >
+        Start Quiz
       </Button>
     </Surface>
   );
@@ -32,7 +38,8 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   btn: {
-    margin: 8
+    margin: 8,
+    padding: 8
   }
 });
 
