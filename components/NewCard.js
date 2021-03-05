@@ -1,0 +1,30 @@
+import React from 'react';
+import {Button, Surface, TextInput, Title} from 'react-native-paper';
+import {StyleSheet} from 'react-native';
+
+function NewCard() {
+  return (
+    <Surface style={styles.surface}>
+      <TextInput label="Question" style={styles.input}/>
+      <TextInput label="Answer" style={styles.input}/>
+      <Button mode="contained" style={styles.btn}>Submit</Button>
+    </Surface>
+  );
+}
+
+const styles = StyleSheet.create({
+  surface: {
+    margin: 8,
+    padding: 16,
+    elevation: 4,
+  },
+  btn: {
+    marginTop: 16,
+    padding: 8
+  },
+  input: {
+    marginBottom: 16
+  }
+});
+
+export default NewCard;

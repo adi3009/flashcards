@@ -13,7 +13,14 @@ function DeckView({route, navigation}) {
       <Title>{title}</Title>
       <Caption>{cards}</Caption>
       <Button mode="contained" style={styles.btn}>Start Quiz</Button>
-      <Button icon="plus" mode="contained" style={styles.btn}>Add Card</Button>
+      <Button
+        icon="plus"
+        mode="contained"
+        style={styles.btn}
+        onPress={() => navigation.navigate('NewCard')}
+      >
+        Add Card
+      </Button>
     </Surface>
   );
 }

@@ -7,6 +7,7 @@ import {Provider as PaperProvider} from 'react-native-paper';
 import DeckList from './components/DeckList';
 import DeckView from './components/DeckView';
 import NewDeck from './components/NewDeck';
+import NewCard from './components/NewCard';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,7 @@ export default function App() {
           <Stack.Screen name="Decks" component={DeckList} />
           <Stack.Screen name="DeckView" component={DeckView} options={{title: 'Deck'}}/>
           <Stack.Screen name="NewDeck" component={NewDeck} options={{title: 'New Deck'}}/>
+          <Stack.Screen name="NewCard" component={NewCard} options={{title: 'Add Card'}}/>
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
