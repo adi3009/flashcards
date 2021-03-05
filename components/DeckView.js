@@ -21,6 +21,7 @@ function DeckView({route, navigation}) {
         Add Card
       </Button>
       <Button
+        icon="radar"
         mode="contained"
         style={styles.btn}
         onPress={() => navigation.navigate('Quiz')}
