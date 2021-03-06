@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {AppRegistry, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -9,10 +9,34 @@ import DeckView from './components/DeckView';
 import NewDeck from './components/NewDeck';
 import NewCard from './components/NewCard';
 import QuizView from './components/QuizView';
+import AppNotification from './utils/notification';
 
 const Stack = createStackNavigator();
 
 export default function App() {
+
+  const onNotification = () => {
+    console.log('notification received');
+  };
+
+  useEffect(() => {
+    let componentMounted = true;
+    let listener;
+    (async () => {
+      if (componentMounted) {
+        /*let time = new Date();
+        time.setMinutes(time.getMinutes() + 2);*/
+        AppNotification.schedule();
+        AppNotification.onNotification(onNotification);
+      }
+    })();
+
+    return () => {
+      componentMounted = false;
+      listener && listener.remove();
+    }
+  });
+
   return (
     <PaperProvider>
       <NavigationContainer>
