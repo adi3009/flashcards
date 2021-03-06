@@ -6,8 +6,7 @@ import {getDecks} from '../utils/api';
 
 const handleOnPress = (navigation, item) => {
   navigation.navigate('DeckView', {
-    title: item.title,
-    totalCards: item.totalCards
+    title: item.title
   })
 };
 

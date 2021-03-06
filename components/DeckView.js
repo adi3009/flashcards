@@ -1,10 +1,23 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {Button, Caption, Surface, Title} from 'react-native-paper';
+import {getDeck} from '../utils/api';
 
 function DeckView({route, navigation}) {
 
-  const {title, totalCards} = route.params;
+  const {title} = route.params;
+
+  const [deck, setDeck] = useState(null);
+
+  const [totalCards, setTotalCards] = useState(0);
+
+  useEffect(() => {
+    (async () => {
+      const result = await getDeck(title);
+      setDeck(result);
+      setTotalCards(result.questions.length);
+    })();
+  }, [deck]);
 
   const cards = `${totalCards} ` + (totalCards > 1 ? 'cards' : 'card');
 
@@ -16,7 +29,7 @@ function DeckView({route, navigation}) {
         icon="plus"
         mode="contained"
         style={styles.btn}
-        onPress={() => navigation.navigate('NewCard')}
+        onPress={() => navigation.navigate('NewCard', {deckTitle: title})}
       >
         Add Card
       </Button>

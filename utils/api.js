@@ -30,15 +30,16 @@ const initialData = {
 (async () => {
   //await AsyncStorage.clear();
   const decks = await AsyncStorage.getItem(storageKey);
-  console.group('DECKS');
-  console.log(decks);
-  console.groupEnd();
   if (decks) {
     return;
   }
 
-  await AsyncStorage.setItem(storageKey, JSON.stringify(initialData));
+  await save(initialData);
 })();
+
+async function save(decks) {
+  return AsyncStorage.setItem(storageKey, JSON.stringify(decks));
+}
 
 export async function getDecks() {
   const decks = await AsyncStorage.getItem(storageKey);
@@ -47,6 +48,12 @@ export async function getDecks() {
   }
 
   return JSON.parse(decks);
+}
+
+export async function getDeck(deckTitle) {
+  const decks = await getDecks();
+
+  return decks[deckTitle];
 }
 
 export async function addDeck(title) {
@@ -60,10 +67,17 @@ export async function addDeck(title) {
     questions: []
   };
 
-  try {
-    await AsyncStorage.setItem(storageKey, JSON.stringify(decks));
-    return Promise.resolve(`deck ${title} added.`)
-  } catch (e) {
-    return Promise.reject(e)
+  return save(decks);
+}
+
+export async function addCardToDeck(deckTitle, question, answer) {
+  const decks = await getDecks();
+  const deck = decks[deckTitle];
+  if (!deck) {
+    return Promise.reject(`deck ${deckTitle} does not exist.`);
   }
+
+  deck.questions.push({question: question, answer: answer});
+
+  return save(decks);
 }
