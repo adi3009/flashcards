@@ -47,7 +47,7 @@ function NewCard({route, navigation}) {
       </Surface>
       <Snackbar visible={message.length}
                 onDismiss={() => setMessage('')}
-                duration="2000"
+                duration={2000}
                 style={styles.snackbar}>
         {message}
       </Snackbar>
