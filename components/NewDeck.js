@@ -23,6 +23,7 @@ function NewDeck({navigation}) {
     setLoading(true);
     try {
       await addDeck(title.trim());
+      setLoading(false);
       navigation.navigate('DeckView', {title});
     } catch (e) {
       setLoading(false);
