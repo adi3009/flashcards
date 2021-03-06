@@ -12,11 +12,16 @@ function DeckView({route, navigation}) {
   const [totalCards, setTotalCards] = useState(0);
 
   useEffect(() => {
+    let componentMounted = true;
     (async () => {
       const result = await getDeck(title);
-      setDeck(result);
-      setTotalCards(result.questions.length);
+      if (componentMounted) {
+        setDeck(result);
+        setTotalCards(result.questions.length);
+      }
     })();
+
+    return () => componentMounted = false;
   }, [deck]);
 
   const cards = `${totalCards} ` + (totalCards > 1 ? 'cards' : 'card');
@@ -37,7 +42,7 @@ function DeckView({route, navigation}) {
         icon="radar"
         mode="contained"
         style={styles.btn}
-        onPress={() => navigation.navigate('Quiz')}
+        onPress={() => navigation.navigate('Quiz', {deckTitle: title})}
       >
         Start Quiz
       </Button>

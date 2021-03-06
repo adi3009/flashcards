@@ -21,14 +21,17 @@ function DeckList({navigation}) {
   const [decks, setDecks] = useState([]);
 
   useEffect(() => {
+    let componentMounted = true;
     (async () => {
       const result = await getDecks();
-      setDecks(Object.values(result).map(deck => ({
+      componentMounted && setDecks(Object.values(result).map(deck => ({
         id: deck.title,
         title: deck.title,
         totalCards: deck.questions.length
       })));
     })();
+
+    return () => componentMounted = false;
   }, [decks]);
 
   return (
