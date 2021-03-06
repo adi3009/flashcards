@@ -1,14 +1,49 @@
-import React from 'react';
-import {Button, Surface, TextInput, Title} from 'react-native-paper';
+import React, {useState} from 'react';
+import {Button, Snackbar, Surface, TextInput, Title} from 'react-native-paper';
 import {StyleSheet} from 'react-native';
+import {addDeck} from '../utils/api';
 
-function NewDeck() {
+function NewDeck({navigation}) {
+
+  const [title, setTitle] = useState('');
+
+  const [loading, setLoading] = useState(false);
+
+  const [message, setMessage] = useState('');
+
+  const onChange = (text) => setTitle(text);
+
+  const onSubmit = async () => {
+    if (title.trim().length < 3) {
+      setMessage('title must be at least 3 characters.');
+
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await addDeck(title.trim());
+      navigation.goBack();
+    } catch (e) {
+      setLoading(false);
+      setMessage(e);
+    }
+  };
+
   return (
-    <Surface style={styles.surface}>
-      <Title style={styles.title}>What is the title of your new deck?</Title>
-      <TextInput label="Deck Title"/>
-      <Button mode="contained" style={styles.btn}>Submit</Button>
-    </Surface>
+    <>
+      <Surface style={styles.surface}>
+        <Title style={styles.title}>What is the title of your new deck?</Title>
+        <TextInput label="Deck Title" value={title} onChangeText={onChange}/>
+        <Button mode="contained" style={styles.btn} loading={loading} onPress={onSubmit}>Submit</Button>
+      </Surface>
+      <Snackbar visible={message.length}
+                onDismiss={() => setMessage('')}
+                duration="2000"
+                style={styles.snackbar}>
+        {message}
+      </Snackbar>
+    </>
   );
 }
 
@@ -26,6 +61,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 16,
     textAlign: 'center'
+  },
+  snackbar: {
+    position: 'absolute',
+    bottom: 30,
   }
 });
 

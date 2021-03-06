@@ -1,19 +1,8 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import DeckListItem from './DeckListItem';
-import {FlatList, View, StyleSheet} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import {FAB, TouchableRipple} from 'react-native-paper';
-
-const cards = [
-  {id: '1', title: 'deck1', totalCards: 1},
-  {id: '2', title: 'deck2', totalCards: 5},
-  {id: '3', title: 'deck3', totalCards: 5},
-  {id: '4', title: 'deck4', totalCards: 5},
-  {id: '5', title: 'deck5', totalCards: 5},
-  {id: '6', title: 'deck6', totalCards: 5},
-  {id: '7', title: 'deck7', totalCards: 5},
-  {id: '8', title: 'deck8', totalCards: 5},
-  {id: '9', title: 'deck9', totalCards: 5},
-];
+import {getDecks} from '../utils/api';
 
 const handleOnPress = (navigation, item) => {
   navigation.navigate('DeckView', {
@@ -29,11 +18,25 @@ const Item = ({item, onPress}) => <TouchableRipple onPress={onPress}>
 </TouchableRipple>;
 
 function DeckList({navigation}) {
+
+  const [decks, setDecks] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const result = await getDecks();
+      setDecks(Object.values(result).map(deck => ({
+        id: deck.title,
+        title: deck.title,
+        totalCards: deck.questions.length
+      })));
+    })();
+  }, [decks]);
+
   return (
     <View>
       <FlatList
         style={styles.list}
-        data={cards}
+        data={decks}
         renderItem={({item}) => <Item
           item={item}
           onPress={() => handleOnPress(navigation, item)}/>
@@ -47,7 +50,8 @@ function DeckList({navigation}) {
 
 const styles = StyleSheet.create({
   list: {
-    marginBottom: 64
+    marginBottom: 64,
+    height: '90%'
   },
   fab: {
     position: 'absolute',
